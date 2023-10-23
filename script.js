@@ -91,7 +91,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let bestMove = null;
     let bestEval = -Infinity;
 
-    for (let col = 0; col < 7; col++) {
+    // Prioritize center columns
+    const centerColumns = [3, 2, 4, 1, 5, 0, 6];
+
+    for (let i = 0; i < centerColumns.length; i++) {
+      const col = centerColumns[i];
       if (boardState[0][col] === 0) {
         const newBoard = boardState.map((row) => row.slice());
         const eval = minimax(newBoard, 5, -Infinity, Infinity, false);
@@ -101,7 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     }
-    console.log(bestMove);
     highlightRecommendation(bestMove);
     return bestMove;
   }
@@ -115,8 +118,12 @@ document.addEventListener("DOMContentLoaded", function () {
       let maxEval = -Infinity;
       for (let col = 0; col < 7; col++) {
         if (board[0][col] === 0) {
-          const row = dropPiece(board, col, true); // Pass the board to dropPiece
-          const eval = minimax(board, depth - 1, alpha, beta, false);
+          const newBoard = board.map((row) => row.slice());
+          const row = dropPiece(newBoard, col, true); // Pass the board to dropPiece
+          if (checkWinner(row, col)) {
+            return Infinity; // Winning move, prioritize it
+          }
+          const eval = minimax(newBoard, depth - 1, alpha, beta, false);
           maxEval = Math.max(maxEval, eval);
           alpha = Math.max(alpha, eval);
           if (beta <= alpha) break; // Alpha-beta pruning
@@ -127,8 +134,12 @@ document.addEventListener("DOMContentLoaded", function () {
       let minEval = Infinity;
       for (let col = 0; col < 7; col++) {
         if (board[0][col] === 0) {
-          const row = dropPiece(board, col, true); // Pass the board to dropPiece
-          const eval = minimax(board, depth - 1, alpha, beta, true);
+          const newBoard = board.map((row) => row.slice());
+          const row = dropPiece(newBoard, col, true); // Pass the board to dropPiece
+          if (checkWinner(row, col)) {
+            return -Infinity; // Blocking opponent's winning move
+          }
+          const eval = minimax(newBoard, depth - 1, alpha, beta, true);
           minEval = Math.min(minEval, eval);
           beta = Math.min(beta, eval);
           if (beta <= alpha) break; // Alpha-beta pruning

@@ -4,35 +4,44 @@
 
 .board {
   display: grid;
-  grid-template-columns: repeat(7, 50px);
-  grid-template-rows: repeat(6, 50px);
-  gap: 2px;
+  grid-template-columns: repeat(7, 60px); /* Adjusted column width */
+  grid-template-rows: repeat(6, 60px); /* Adjusted row height */
+  gap: 4px; /* Increased gap */
   margin: 20px auto;
   justify-content: center;
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
-  background-color: white;
-  border: 1px solid #ccc;
+  width: 60px; /* Adjusted cell width */
+  height: 60px; /* Adjusted cell height */
+  background-color: #f0f0f0; /* Light grey */
+  border: none; /* Removed border */
+  border-radius: 10px; /* Added border radius */
 }
 
 .piece {
-  width: 40px;
-  height: 40px;
+  width: 50px; /* Adjusted piece width */
+  height: 50px; /* Adjusted piece height */
   border-radius: 50%;
   margin: 5px;
 }
 
 .player-1 {
-  background-color: red;
+  background-color: lightgreen;
 }
 
 .player-2 {
-  background-color: yellow;
+  background-color: lightsalmon;
 }
 
 .recommendation {
-  background-color: #a3a3a3; /* Light grey, adjust as needed */
+  background-color: lightblue;
+}
+
+.cell.player-1.recommendation {
+  background-color: lightgreen;
+}
+
+.cell.player-2.recommendation {
+  background-color: lightsalmon;
 }
